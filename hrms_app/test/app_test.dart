@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hrms_app/app.dart';
 
+/// Finds an icon within the BottomNavigationBar specifically. Some icons
+/// (e.g. attendance/leave) are reused by Home's quick-action shortcuts, so a
+/// bare `find.byIcon` can match more than one widget once real dashboard
+/// content is on screen.
+Finder findNavIcon(IconData icon) => find.descendant(
+      of: find.byType(BottomNavigationBar),
+      matching: find.byIcon(icon),
+    );
+
 void main() {
   group('HrmsApp Navigation Tests', () {
     testWidgets('HrmsApp loads with Home tab selected by default', (WidgetTester tester) async {
@@ -23,7 +32,7 @@ void main() {
       await tester.pumpWidget(const HrmsApp());
 
       // Find and tap the Attendance bottom nav item
-      await tester.tap(find.byIcon(Icons.access_time_outlined));
+      await tester.tap(findNavIcon(Icons.access_time_outlined));
       await tester.pumpAndSettle();
 
       // Verify Attendance tab is now selected (index 1) by checking IndexedStack.index
@@ -42,7 +51,7 @@ void main() {
       await tester.pumpWidget(const HrmsApp());
 
       // Find and tap the Leave bottom nav item
-      await tester.tap(find.byIcon(Icons.event_note_outlined));
+      await tester.tap(findNavIcon(Icons.event_note_outlined));
       await tester.pumpAndSettle();
 
       // Verify Leave tab is now selected (index 2) by checking IndexedStack.index
@@ -61,7 +70,7 @@ void main() {
       await tester.pumpWidget(const HrmsApp());
 
       // Find and tap the Me (Profile) bottom nav item
-      await tester.tap(find.byIcon(Icons.person_outline));
+      await tester.tap(findNavIcon(Icons.person_outline));
       await tester.pumpAndSettle();
 
       // Verify Me tab is now selected (index 3) by checking IndexedStack.index
@@ -86,7 +95,7 @@ void main() {
       );
 
       // Navigate to Attendance (index 1)
-      await tester.tap(find.byIcon(Icons.access_time_outlined));
+      await tester.tap(findNavIcon(Icons.access_time_outlined));
       await tester.pumpAndSettle();
       expect(
         tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
@@ -94,7 +103,7 @@ void main() {
       );
 
       // Navigate back to Home (index 0)
-      await tester.tap(find.byIcon(Icons.home_outlined));
+      await tester.tap(findNavIcon(Icons.home_outlined));
       await tester.pumpAndSettle();
       expect(
         tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
@@ -102,7 +111,7 @@ void main() {
       );
 
       // Navigate to Leave (index 2)
-      await tester.tap(find.byIcon(Icons.event_note_outlined));
+      await tester.tap(findNavIcon(Icons.event_note_outlined));
       await tester.pumpAndSettle();
       expect(
         tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
@@ -110,7 +119,7 @@ void main() {
       );
 
       // Navigate to Me/Profile (index 3)
-      await tester.tap(find.byIcon(Icons.person_outline));
+      await tester.tap(findNavIcon(Icons.person_outline));
       await tester.pumpAndSettle();
       expect(
         tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
