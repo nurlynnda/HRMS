@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'state/app_state.dart';
 import 'theme/app_theme.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/attendance/attendance_screen.dart';
@@ -10,11 +12,14 @@ class HrmsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'HRMS',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.themeData,
-      home: const MainTabShell(),
+    return ChangeNotifierProvider(
+      create: (_) => AppState(),
+      child: MaterialApp(
+        title: 'HRMS',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.themeData,
+        home: const MainTabShell(),
+      ),
     );
   }
 }
