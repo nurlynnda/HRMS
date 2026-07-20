@@ -47,7 +47,7 @@ class AnnouncementsList extends StatelessWidget {
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFECFDF5),
+                      color: AppColors.primaryTint,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(a.icon, color: AppColors.primary, size: 20),

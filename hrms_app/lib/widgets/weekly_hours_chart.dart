@@ -82,7 +82,7 @@ class WeeklyHoursChart extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(horizontal: 5),
                             decoration: BoxDecoration(
                               color: day.highlighted
-                                  ? const Color(0xFF6EE7B7)
+                                  ? AppColors.primaryHighlight
                                   : AppColors.primary,
                               borderRadius: const BorderRadius.vertical(
                                 top: Radius.circular(8),

@@ -33,7 +33,7 @@ class QuickActionsRow extends StatelessWidget {
                   width: 54,
                   height: 54,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFECFDF5),
+                    color: AppColors.primaryTint,
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(action.icon, color: AppColors.primary, size: 24),

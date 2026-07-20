@@ -30,7 +30,7 @@ class LeaveBalanceCard extends StatelessWidget {
                     child: CircularProgressIndicator(
                       value: primary.remaining / primary.total,
                       strokeWidth: 11,
-                      backgroundColor: const Color(0xFFEEF2F6),
+                      backgroundColor: AppColors.ringTrack,
                       valueColor: const AlwaysStoppedAnimation(AppColors.primary),
                     ),
                   ),

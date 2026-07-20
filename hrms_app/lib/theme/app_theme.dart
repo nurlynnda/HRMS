@@ -13,6 +13,9 @@ class AppColors {
   static const danger = Color(0xFFEF4444);
   static const warning = Color(0xFFF59E0B);
   static const border = Color(0xFFE2E8F0);
+  static const primaryTint = Color(0xFFECFDF5);
+  static const primaryHighlight = Color(0xFF6EE7B7);
+  static const ringTrack = Color(0xFFEEF2F6);
 }
 
 class AppTheme {

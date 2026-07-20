@@ -18,5 +18,6 @@ void main() {
     expect(find.text('Leave balance'), findsOneWidget);
     expect(find.text('Announcements'), findsOneWidget);
     expect(find.text('This week'), findsOneWidget);
+    expect(find.text('Payslip'), findsOneWidget);
   });
 }
