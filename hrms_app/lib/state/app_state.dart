@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/fake_data.dart';
 import '../models/announcement.dart';
+import '../models/approver.dart';
 import '../models/attendance_history_stats.dart';
 import '../models/attendance_record.dart';
 import '../models/attendance_week_stats.dart';
@@ -8,9 +9,12 @@ import '../models/clock_status.dart';
 import '../models/day_hours.dart';
 import '../models/employee.dart';
 import '../models/leave_balance.dart';
+import '../models/personal_info.dart';
 import '../models/today_attendance.dart';
 import '../models/team_absence.dart';
 import '../models/leave_request.dart';
+import '../theme/app_theme.dart';
+import '../utils/date_range_label.dart';
 
 /// Shared app state. Currently exposes hardcoded fake data plus the
 /// first two mutating methods: clockIn() and clockOut(). Later phases
@@ -44,7 +48,10 @@ class AppState extends ChangeNotifier {
   int get teamCalendarTodayDay => FakeData.teamCalendarTodayDay;
   Map<int, List<Color>> get teamCalendarDayColors => FakeData.teamCalendarDayColors;
   List<TeamAbsence> get teamAbsences => FakeData.teamAbsences;
-  List<LeaveRequest> get myLeaveRequests => FakeData.myLeaveRequests;
+  List<LeaveRequest> _myLeaveRequests = List.of(FakeData.myLeaveRequests);
+  List<LeaveRequest> get myLeaveRequests => _myLeaveRequests;
+  List<Approver> get pendingApprovalChain => FakeData.pendingApprovalChain;
+  PersonalInfo get personalInfo => FakeData.personalInfo;
 
   AttendanceWeekStats get attendanceWeekStats => FakeData.weekStats;
   List<AttendanceRecord> get attendanceRecords => FakeData.attendanceRecords;
@@ -71,6 +78,27 @@ class AppState extends ChangeNotifier {
       targetLabel: _todayAttendance.targetLabel,
       progress: _todayAttendance.progress,
     );
+    notifyListeners();
+  }
+
+  /// Adds a new Pending leave request to the front of [myLeaveRequests].
+  /// Mirrors clockIn()/clockOut(): mutate internal state, notify.
+  void submitLeaveRequest({
+    required String type,
+    required DateTime start,
+    required DateTime end,
+    required String reason,
+  }) {
+    final newRequest = LeaveRequest(
+      type: type,
+      dateRangeLabel: formatDateRangeLabel(start, end),
+      status: 'Pending',
+      statusColor: AppColors.warning,
+      statusBg: AppColors.warningTint,
+      reason: reason,
+      approvers: FakeData.pendingApprovalChain,
+    );
+    _myLeaveRequests = [newRequest, ..._myLeaveRequests];
     notifyListeners();
   }
 }

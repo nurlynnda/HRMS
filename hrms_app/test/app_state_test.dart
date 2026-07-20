@@ -33,4 +33,36 @@ void main() {
 
     expect(notified, isTrue);
   });
+
+  test('submitLeaveRequest() prepends a new Pending request and notifies', () {
+    final appState = AppState();
+    final before = appState.myLeaveRequests.length;
+    var notified = false;
+    appState.addListener(() => notified = true);
+
+    appState.submitLeaveRequest(
+      type: 'Personal Leave',
+      start: DateTime(2026, 8, 3),
+      end: DateTime(2026, 8, 4),
+      reason: 'Moving apartment',
+    );
+
+    expect(appState.myLeaveRequests.length, before + 1);
+    expect(appState.myLeaveRequests.first.type, 'Personal Leave');
+    expect(appState.myLeaveRequests.first.status, 'Pending');
+    expect(appState.myLeaveRequests.first.dateRangeLabel, 'Aug 3 – 4 · 2 days');
+    expect(appState.myLeaveRequests.first.reason, 'Moving apartment');
+    expect(appState.myLeaveRequests.first.approvers, isNotEmpty);
+    expect(notified, isTrue);
+  });
+
+  test('pendingApprovalChain exposes a non-empty approver list', () {
+    final appState = AppState();
+    expect(appState.pendingApprovalChain, isNotEmpty);
+  });
+
+  test('personalInfo exposes the employee\'s work email', () {
+    final appState = AppState();
+    expect(appState.personalInfo.workEmail, 'sarah.chen@company.com');
+  });
 }
