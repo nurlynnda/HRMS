@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/leave_request.dart';
 import '../../theme/app_theme.dart';
+import 'leave_request_detail_screen.dart';
 
 class LeaveHistoryScreen extends StatefulWidget {
   final List<LeaveRequest> requests;
@@ -67,41 +68,47 @@ class _LeaveHistoryScreenState extends State<LeaveHistoryScreen> {
             ...filtered.map(
               (r) => Card(
                 margin: const EdgeInsets.only(bottom: 10),
-                child: Padding(
-                  padding: const EdgeInsets.all(14),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 42,
-                        height: 42,
-                        decoration: BoxDecoration(color: AppColors.primaryTint, borderRadius: BorderRadius.circular(12)),
-                        child: const Icon(Icons.event_note_outlined, color: AppColors.primary, size: 20),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              r.type,
-                              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
-                            ),
-                            Text(
-                              r.dateRangeLabel,
-                              style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
-                            ),
-                          ],
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => LeaveRequestDetailScreen(request: r)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(14),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 42,
+                          height: 42,
+                          decoration: BoxDecoration(color: AppColors.primaryTint, borderRadius: BorderRadius.circular(12)),
+                          child: const Icon(Icons.event_note_outlined, color: AppColors.primary, size: 20),
                         ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
-                        decoration: BoxDecoration(color: r.statusBg, borderRadius: BorderRadius.circular(999)),
-                        child: Text(
-                          r.status,
-                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: r.statusColor),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                r.type,
+                                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
+                              ),
+                              Text(
+                                r.dateRangeLabel,
+                                style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
+                          decoration: BoxDecoration(color: r.statusBg, borderRadius: BorderRadius.circular(999)),
+                          child: Text(
+                            r.status,
+                            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: r.statusColor),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
