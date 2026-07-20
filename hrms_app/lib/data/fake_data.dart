@@ -11,11 +11,19 @@ import '../theme/app_theme.dart';
 import '../models/approver.dart';
 import '../models/leave_request.dart';
 import '../models/team_absence.dart';
+import '../models/personal_info.dart';
 
 /// Hardcoded sample data matching the HRMS design mockup, standing in for
 /// a real backend until one exists.
 class FakeData {
-  static const employee = Employee(name: 'Sarah Chen', initials: 'SC');
+  static const employee = Employee(
+    name: 'Sarah Chen',
+    initials: 'SC',
+    role: 'Product Designer',
+    department: 'Design',
+    employeeId: 'EMP-2041',
+    employmentType: 'Full-time',
+  );
 
   static const weeklyHours = [
     DayHours(label: 'Mon', hours: 7.9),
@@ -267,6 +275,10 @@ class FakeData {
     ),
   ];
 
+  /// Public alias so AppState (a different file) can expose the pending
+  /// approval chain for the new-request form's preview.
+  static const pendingApprovalChain = _approversPending;
+
   static const _approversRejected = [
     Approver(
       initials: 'ML',
@@ -302,6 +314,28 @@ class FakeData {
       when: '—',
     ),
   ];
+
+  static const personalInfo = PersonalInfo(
+    dateOfBirth: '12 Mar 1993',
+    gender: 'Female',
+    maritalStatus: 'Single',
+    nationality: 'Malaysian',
+    nric: '930312-14-5xxx',
+    workEmail: 'sarah.chen@company.com',
+    mobile: '+60 12-345 6789',
+    address: '12, Jalan Damai 3, Taman Desa, 58100 Kuala Lumpur',
+    emergencyContactName: 'David Chen',
+    emergencyContactRelationship: 'Brother',
+    emergencyContactPhone: '+60 13-222 8890',
+    department: 'Design',
+    position: 'Product Designer',
+    joinDate: '3 Feb 2022',
+    employmentType: 'Full-time',
+    reportingTo: 'Marcus Lee',
+    epfNumber: '1234 5678',
+    socsoNumber: '9303 1214 5xxx',
+    incomeTaxNumber: 'SG 1234567890',
+  );
 
   static const myLeaveRequests = [
     LeaveRequest(
