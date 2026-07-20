@@ -41,4 +41,15 @@ void main() {
     expect(find.text('Annual Leave'), findsNothing);
     expect(find.text('Medical Leave'), findsOneWidget);
   });
+
+  testWidgets('tapping a request opens its detail page', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(home: LeaveHistoryScreen(requests: _requests)),
+    );
+
+    await tester.tap(find.text('Annual Leave'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Request details'), findsOneWidget);
+  });
 }
