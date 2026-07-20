@@ -48,4 +48,18 @@ void main() {
 
     expect(find.text('Leave History'), findsOneWidget);
   });
+
+  testWidgets('Tapping the Request button opens the leave type picker', (tester) async {
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (_) => AppState(),
+        child: const MaterialApp(home: Scaffold(body: LeaveScreen())),
+      ),
+    );
+
+    await tester.tap(find.text('Request'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Choose a leave type to continue'), findsOneWidget);
+  });
 }

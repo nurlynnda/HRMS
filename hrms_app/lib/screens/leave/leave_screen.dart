@@ -8,6 +8,7 @@ import '../../widgets/team_calendar_card.dart';
 import '../../widgets/whos_away_list.dart';
 import 'leave_history_screen.dart';
 import 'leave_request_detail_screen.dart';
+import 'leave_type_picker_screen.dart';
 
 class LeaveScreen extends StatelessWidget {
   const LeaveScreen({super.key});
@@ -54,16 +55,22 @@ class LeaveScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-                    decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(12)),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.add, size: 16, color: Colors.white),
-                        SizedBox(width: 6),
-                        Text('Request', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white)),
-                      ],
+                  InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const LeaveTypePickerScreen()),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                      decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(12)),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.add, size: 16, color: Colors.white),
+                          SizedBox(width: 6),
+                          Text('Request', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Colors.white)),
+                        ],
+                      ),
                     ),
                   ),
                 ],
