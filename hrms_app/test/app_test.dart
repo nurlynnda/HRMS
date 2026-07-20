@@ -7,8 +7,16 @@ void main() {
     testWidgets('HrmsApp loads with Home tab selected by default', (WidgetTester tester) async {
       await tester.pumpWidget(const HrmsApp());
 
-      // Verify "Home" text is visible initially
-      expect(find.text('Home'), findsWidgets);
+      // Verify Home tab is selected (index 0) by checking IndexedStack.index
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(0),
+      );
+      // Verify BottomNavigationBar also shows Home as current
+      expect(
+        tester.widget<BottomNavigationBar>(find.byType(BottomNavigationBar)).currentIndex,
+        equals(0),
+      );
     });
 
     testWidgets('Tapping Attendance tab switches to Attendance screen', (WidgetTester tester) async {
@@ -18,9 +26,16 @@ void main() {
       await tester.tap(find.byIcon(Icons.access_time_outlined));
       await tester.pumpAndSettle();
 
-      // Verify Attendance screen is now shown by finding Attendance text
-      // After tap, there should be multiple "Attendance" widgets (nav label + screen text)
-      expect(find.text('Attendance'), findsWidgets);
+      // Verify Attendance tab is now selected (index 1) by checking IndexedStack.index
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(1),
+      );
+      // Verify BottomNavigationBar also shows Attendance as current
+      expect(
+        tester.widget<BottomNavigationBar>(find.byType(BottomNavigationBar)).currentIndex,
+        equals(1),
+      );
     });
 
     testWidgets('Tapping Leave tab switches to Leave screen', (WidgetTester tester) async {
@@ -30,8 +45,16 @@ void main() {
       await tester.tap(find.byIcon(Icons.event_note_outlined));
       await tester.pumpAndSettle();
 
-      // Verify Leave screen is now shown
-      expect(find.text('Leave'), findsWidgets);
+      // Verify Leave tab is now selected (index 2) by checking IndexedStack.index
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(2),
+      );
+      // Verify BottomNavigationBar also shows Leave as current
+      expect(
+        tester.widget<BottomNavigationBar>(find.byType(BottomNavigationBar)).currentIndex,
+        equals(2),
+      );
     });
 
     testWidgets('Tapping Me tab switches to Profile screen', (WidgetTester tester) async {
@@ -41,35 +64,58 @@ void main() {
       await tester.tap(find.byIcon(Icons.person_outline));
       await tester.pumpAndSettle();
 
-      // Verify Profile screen is now shown (displays "Me" text)
-      expect(find.text('Me'), findsWidgets);
+      // Verify Me tab is now selected (index 3) by checking IndexedStack.index
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(3),
+      );
+      // Verify BottomNavigationBar also shows Me as current
+      expect(
+        tester.widget<BottomNavigationBar>(find.byType(BottomNavigationBar)).currentIndex,
+        equals(3),
+      );
     });
 
     testWidgets('Navigation between multiple tabs works without errors', (WidgetTester tester) async {
       await tester.pumpWidget(const HrmsApp());
 
-      // Verify initial Home screen
-      expect(find.text('Home'), findsWidgets);
+      // Verify initial Home tab (index 0)
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(0),
+      );
 
-      // Navigate to Attendance
+      // Navigate to Attendance (index 1)
       await tester.tap(find.byIcon(Icons.access_time_outlined));
       await tester.pumpAndSettle();
-      expect(find.text('Attendance'), findsWidgets);
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(1),
+      );
 
-      // Navigate back to Home
+      // Navigate back to Home (index 0)
       await tester.tap(find.byIcon(Icons.home_outlined));
       await tester.pumpAndSettle();
-      expect(find.text('Home'), findsWidgets);
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(0),
+      );
 
-      // Navigate to Leave
+      // Navigate to Leave (index 2)
       await tester.tap(find.byIcon(Icons.event_note_outlined));
       await tester.pumpAndSettle();
-      expect(find.text('Leave'), findsWidgets);
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(2),
+      );
 
-      // Navigate to Me/Profile
+      // Navigate to Me/Profile (index 3)
       await tester.tap(find.byIcon(Icons.person_outline));
       await tester.pumpAndSettle();
-      expect(find.text('Me'), findsWidgets);
+      expect(
+        tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+        equals(3),
+      );
     });
   });
 }
