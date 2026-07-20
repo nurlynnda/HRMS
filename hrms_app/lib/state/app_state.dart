@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import '../data/fake_data.dart';
 import '../models/announcement.dart';
 import '../models/attendance_history_stats.dart';
@@ -9,6 +9,8 @@ import '../models/day_hours.dart';
 import '../models/employee.dart';
 import '../models/leave_balance.dart';
 import '../models/today_attendance.dart';
+import '../models/team_absence.dart';
+import '../models/leave_request.dart';
 
 /// Shared app state. Currently exposes hardcoded fake data plus the
 /// first two mutating methods: clockIn() and clockOut(). Later phases
@@ -35,6 +37,14 @@ class AppState extends ChangeNotifier {
   String get weeklyChangeLabel => FakeData.weeklyChangeLabel;
   List<LeaveBalance> get leaveBalances => FakeData.leaveBalances;
   List<Announcement> get announcements => FakeData.announcements;
+
+  String get upcomingHolidayLabel => FakeData.upcomingHolidayLabel;
+  int get teamCalendarYear => FakeData.teamCalendarYear;
+  int get teamCalendarMonth => FakeData.teamCalendarMonth;
+  int get teamCalendarTodayDay => FakeData.teamCalendarTodayDay;
+  Map<int, List<Color>> get teamCalendarDayColors => FakeData.teamCalendarDayColors;
+  List<TeamAbsence> get teamAbsences => FakeData.teamAbsences;
+  List<LeaveRequest> get myLeaveRequests => FakeData.myLeaveRequests;
 
   AttendanceWeekStats get attendanceWeekStats => FakeData.weekStats;
   List<AttendanceRecord> get attendanceRecords => FakeData.attendanceRecords;
