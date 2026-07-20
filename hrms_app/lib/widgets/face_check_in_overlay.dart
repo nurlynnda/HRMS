@@ -71,7 +71,7 @@ class _FaceCheckInOverlayState extends State<FaceCheckInOverlay> {
                       ),
                       Text(
                         'Verify your identity to clock $verb',
-                        style: const TextStyle(fontSize: 12, color: Color(0xFF94A3B8)),
+                        style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
                       ),
                     ],
                   ),
@@ -123,7 +123,7 @@ class _FaceCheckInOverlayState extends State<FaceCheckInOverlay> {
                     style: TextStyle(
                       fontSize: _stage == _FaceStage.success ? 15 : 13,
                       fontWeight: _stage == _FaceStage.success ? FontWeight.w700 : FontWeight.w400,
-                      color: _stage == _FaceStage.success ? Colors.white : const Color(0xFF94A3B8),
+                      color: _stage == _FaceStage.success ? Colors.white : AppColors.textMuted,
                     ),
                   ),
                 ],
