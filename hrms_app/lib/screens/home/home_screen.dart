@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../state/app_state.dart';
+import '../claims/claims_screen.dart';
 import '../../widgets/announcements_list.dart';
 import '../../widgets/clock_status_card.dart';
 import '../../widgets/home_header.dart';
@@ -23,7 +24,11 @@ class HomeScreen extends StatelessWidget {
           const SizedBox(height: 20),
           ClockStatusCard(status: appState.clockStatus),
           const SizedBox(height: 18),
-          const QuickActionsRow(),
+          QuickActionsRow(
+            onClaimsTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const ClaimsScreen()),
+            ),
+          ),
           const SizedBox(height: 22),
           WeeklyHoursChart(
             days: appState.weeklyHours,

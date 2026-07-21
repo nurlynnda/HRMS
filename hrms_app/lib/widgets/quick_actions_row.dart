@@ -9,10 +9,13 @@ class _QuickAction {
 }
 
 /// Row of four icon shortcuts shown on Home: Attendance, Leave, Claims,
-/// Payslip. Display-only for now — see plan for why they're not wired to
-/// navigation yet.
+/// Payslip. Only Claims is wired to navigation so far (Phase 6);
+/// Attendance/Leave/Payslip remain display-only until a later phase
+/// gives them somewhere real to go.
 class QuickActionsRow extends StatelessWidget {
-  const QuickActionsRow({super.key});
+  final VoidCallback onClaimsTap;
+
+  const QuickActionsRow({super.key, required this.onClaimsTap});
 
   static const _actions = [
     _QuickAction(Icons.access_time_outlined, 'Attendance'),
@@ -25,32 +28,38 @@ class QuickActionsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: _actions
-          .map(
-            (action) => Column(
-              children: [
-                Container(
-                  width: 54,
-                  height: 54,
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryTint,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Icon(action.icon, color: AppColors.primary, size: 24),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  action.label,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
+      children: _actions.map((action) {
+        final tile = Column(
+          children: [
+            Container(
+              width: 54,
+              height: 54,
+              decoration: BoxDecoration(
+                color: AppColors.primaryTint,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(action.icon, color: AppColors.primary, size: 24),
             ),
-          )
-          .toList(),
+            const SizedBox(height: 8),
+            Text(
+              action.label,
+              style: const TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ],
+        );
+        if (action.label == 'Claims') {
+          return InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: onClaimsTap,
+            child: tile,
+          );
+        }
+        return tile;
+      }).toList(),
     );
   }
 }

@@ -20,4 +20,18 @@ void main() {
     expect(find.text('This week'), findsOneWidget);
     expect(find.text('Payslip'), findsOneWidget);
   });
+
+  testWidgets('tapping the Claims quick action opens the Claims screen', (tester) async {
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (_) => AppState(),
+        child: const MaterialApp(home: Scaffold(body: HomeScreen())),
+      ),
+    );
+
+    await tester.tap(find.text('Claims'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Recent claims'), findsOneWidget);
+  });
 }
