@@ -14,6 +14,8 @@ import '../models/team_absence.dart';
 import '../models/personal_info.dart';
 import '../models/claim.dart';
 import '../models/claim_entitlement.dart';
+import '../models/payslip.dart';
+import '../models/payslip_line_item.dart';
 
 /// Hardcoded sample data matching the HRMS design mockup, standing in for
 /// a real backend until one exists.
@@ -574,6 +576,68 @@ class FakeData {
       statusBg: AppColors.primaryTint,
       reason: 'Medical appointment.',
       approvers: _approversAllApproved,
+    ),
+  ];
+
+  static const _standardEarnings = [
+    PayslipLineItem(label: 'Basic salary', amount: 6000.00),
+    PayslipLineItem(label: 'Allowance', amount: 500.00),
+  ];
+
+  static const _standardDeductions = [
+    PayslipLineItem(label: 'EPF', amount: 700.00),
+    PayslipLineItem(label: 'SOCSO', amount: 40.00),
+    PayslipLineItem(label: 'EIS', amount: 10.00),
+    PayslipLineItem(label: 'PCB', amount: 300.00),
+  ];
+
+  /// Most recent first — later code relies on payslips.first being the
+  /// latest payslip.
+  static const payslips = [
+    Payslip(
+      id: 'PS-2026-06',
+      month: 'June 2026',
+      period: '1 – 30 Jun 2026',
+      payDate: 'Jun 28',
+      status: 'Paid',
+      earnings: _standardEarnings,
+      deductions: _standardDeductions,
+    ),
+    Payslip(
+      id: 'PS-2026-05',
+      month: 'May 2026',
+      period: '1 – 31 May 2026',
+      payDate: 'May 29',
+      status: 'Paid',
+      earnings: _standardEarnings,
+      deductions: _standardDeductions,
+    ),
+    Payslip(
+      id: 'PS-2026-04',
+      month: 'April 2026',
+      period: '1 – 30 Apr 2026',
+      payDate: 'Apr 29',
+      status: 'Paid',
+      earnings: _standardEarnings,
+      deductions: _standardDeductions,
+    ),
+    Payslip(
+      id: 'PS-2026-03',
+      month: 'March 2026',
+      period: '1 – 31 Mar 2026',
+      payDate: 'Mar 27',
+      status: 'Paid',
+      earnings: _standardEarnings,
+      deductions: _standardDeductions,
+    ),
+    Payslip(
+      id: 'PS-2026-02',
+      month: 'February 2026',
+      period: '1 – 28 Feb 2026',
+      payDate: 'Feb 27',
+      status: 'Paid',
+      earnings: _standardEarnings,
+      deductions: _standardDeductions,
     ),
   ];
 }
