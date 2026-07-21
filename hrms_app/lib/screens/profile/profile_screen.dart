@@ -4,6 +4,7 @@ import '../../state/app_state.dart';
 import '../../theme/app_theme.dart';
 import 'coming_soon_screen.dart';
 import 'personal_info_screen.dart';
+import '../payslip/payslip_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -122,9 +123,7 @@ class ProfileScreen extends StatelessWidget {
                   iconColor: AppColors.warning,
                   label: 'Payslips',
                   onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const ComingSoonScreen(title: 'Payslips'),
-                    ),
+                    MaterialPageRoute(builder: (_) => const PayslipScreen()),
                   ),
                 ),
                 _MenuTile(

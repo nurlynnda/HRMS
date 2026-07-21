@@ -73,4 +73,18 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('tapping Payslips opens the payslip screen', (tester) async {
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (_) => AppState(),
+        child: const MaterialApp(home: Scaffold(body: ProfileScreen())),
+      ),
+    );
+
+    await tester.tap(find.text('Payslips'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Payslip history'), findsOneWidget);
+  });
 }
