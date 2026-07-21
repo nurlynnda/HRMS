@@ -5,6 +5,8 @@ import '../models/approver.dart';
 import '../models/attendance_history_stats.dart';
 import '../models/attendance_record.dart';
 import '../models/attendance_week_stats.dart';
+import '../models/claim.dart';
+import '../models/claim_entitlement.dart';
 import '../models/clock_status.dart';
 import '../models/day_hours.dart';
 import '../models/employee.dart';
@@ -52,6 +54,19 @@ class AppState extends ChangeNotifier {
   List<Approver> get pendingApprovalChain => FakeData.pendingApprovalChain;
   PersonalInfo get personalInfo => FakeData.personalInfo;
 
+  List<Claim> _claims = List.of(FakeData.claims);
+  List<Claim> get claims => _claims;
+  List<ClaimEntitlement> get claimEntitlements => FakeData.claimEntitlements;
+  List<Approver> get pendingClaimApprovers => FakeData.pendingClaimApprovers;
+  List<String> get claimProjects => FakeData.claimProjects;
+  double get approvedClaimsYtdCap => FakeData.approvedYtdCap;
+
+  double get pendingClaimsTotal =>
+      _claims.where((c) => c.status == 'Pending').fold(0.0, (sum, c) => sum + c.amount);
+  int get pendingClaimsCount => _claims.where((c) => c.status == 'Pending').length;
+  double get approvedClaimsYtdTotal =>
+      _claims.where((c) => c.status == 'Approved').fold(0.0, (sum, c) => sum + c.amount);
+
   AttendanceWeekStats get attendanceWeekStats => FakeData.weekStats;
   List<AttendanceRecord> get attendanceRecords => FakeData.attendanceRecords;
   AttendanceHistoryStats get attendanceHistoryStats => FakeData.historyStats;
@@ -98,6 +113,29 @@ class AppState extends ChangeNotifier {
       approvers: FakeData.pendingApprovalChain,
     );
     _myLeaveRequests = [newRequest, ..._myLeaveRequests];
+    notifyListeners();
+  }
+
+  /// Adds a new Pending claim to the front of [claims]. Mirrors
+  /// submitLeaveRequest(): mutate internal state, notify.
+  void submitClaim({
+    required String category,
+    required double amount,
+    required String description,
+  }) {
+    final now = DateTime.now();
+    final newClaim = Claim(
+      id: 'CLM-${1000 + _claims.length}',
+      category: category,
+      dateLabel: '${monthAbbr[now.month - 1]} ${now.day}',
+      amount: amount,
+      status: 'Pending',
+      statusColor: AppColors.warning,
+      statusBg: AppColors.warningTint,
+      description: description,
+      approvers: FakeData.pendingClaimApprovers,
+    );
+    _claims = [newClaim, ..._claims];
     notifyListeners();
   }
 }

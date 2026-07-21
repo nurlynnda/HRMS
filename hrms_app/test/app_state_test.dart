@@ -65,4 +65,47 @@ void main() {
     final appState = AppState();
     expect(appState.personalInfo.workEmail, 'sarah.chen@company.com');
   });
+
+  test('submitClaim() prepends a new Pending claim and notifies', () {
+    final appState = AppState();
+    final before = appState.claims.length;
+    var notified = false;
+    appState.addListener(() => notified = true);
+
+    appState.submitClaim(category: 'Outpatient', amount: 150.0, description: 'Blood test');
+
+    expect(appState.claims.length, before + 1);
+    expect(appState.claims.first.category, 'Outpatient');
+    expect(appState.claims.first.status, 'Pending');
+    expect(appState.claims.first.amount, 150.0);
+    expect(appState.claims.first.description, 'Blood test');
+    expect(appState.claims.first.approvers, isNotEmpty);
+    expect(notified, isTrue);
+  });
+
+  test('pendingClaimsTotal and pendingClaimsCount reflect only Pending claims', () {
+    final appState = AppState();
+    final expectedTotal = appState.claims
+        .where((c) => c.status == 'Pending')
+        .fold(0.0, (sum, c) => sum + c.amount);
+    final expectedCount = appState.claims.where((c) => c.status == 'Pending').length;
+
+    expect(appState.pendingClaimsTotal, expectedTotal);
+    expect(appState.pendingClaimsCount, expectedCount);
+  });
+
+  test('approvedClaimsYtdTotal reflects only Approved claims', () {
+    final appState = AppState();
+    final expectedTotal = appState.claims
+        .where((c) => c.status == 'Approved')
+        .fold(0.0, (sum, c) => sum + c.amount);
+
+    expect(appState.approvedClaimsYtdTotal, expectedTotal);
+  });
+
+  test('claimEntitlements and claimProjects expose non-empty lists', () {
+    final appState = AppState();
+    expect(appState.claimEntitlements, isNotEmpty);
+    expect(appState.claimProjects, isNotEmpty);
+  });
 }
