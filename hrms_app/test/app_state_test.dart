@@ -108,4 +108,10 @@ void main() {
     expect(appState.claimEntitlements, isNotEmpty);
     expect(appState.claimProjects, isNotEmpty);
   });
+
+  test('payslips exposes payslip history with the latest first', () {
+    final appState = AppState();
+    expect(appState.payslips, isNotEmpty);
+    expect(appState.payslips.first.month, 'June 2026');
+  });
 }

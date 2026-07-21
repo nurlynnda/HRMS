@@ -11,6 +11,7 @@ import '../models/clock_status.dart';
 import '../models/day_hours.dart';
 import '../models/employee.dart';
 import '../models/leave_balance.dart';
+import '../models/payslip.dart';
 import '../models/personal_info.dart';
 import '../models/today_attendance.dart';
 import '../models/team_absence.dart';
@@ -70,6 +71,8 @@ class AppState extends ChangeNotifier {
   AttendanceWeekStats get attendanceWeekStats => FakeData.weekStats;
   List<AttendanceRecord> get attendanceRecords => FakeData.attendanceRecords;
   AttendanceHistoryStats get attendanceHistoryStats => FakeData.historyStats;
+
+  List<Payslip> get payslips => FakeData.payslips;
 
   void clockIn() {
     _todayAttendance = TodayAttendance(
