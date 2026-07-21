@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../state/app_state.dart';
 import '../claims/claims_screen.dart';
+import '../payslip/payslip_screen.dart';
 import '../../widgets/announcements_list.dart';
 import '../../widgets/clock_status_card.dart';
 import '../../widgets/home_header.dart';
@@ -27,6 +28,9 @@ class HomeScreen extends StatelessWidget {
           QuickActionsRow(
             onClaimsTap: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const ClaimsScreen()),
+            ),
+            onPayslipTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const PayslipScreen()),
             ),
           ),
           const SizedBox(height: 22),

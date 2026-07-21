@@ -34,4 +34,18 @@ void main() {
 
     expect(find.text('Recent claims'), findsOneWidget);
   });
+
+  testWidgets('tapping the Payslip quick action opens the Payslip screen', (tester) async {
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (_) => AppState(),
+        child: const MaterialApp(home: Scaffold(body: HomeScreen())),
+      ),
+    );
+
+    await tester.tap(find.text('Payslip'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Payslip history'), findsOneWidget);
+  });
 }

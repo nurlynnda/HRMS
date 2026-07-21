@@ -9,13 +9,14 @@ class _QuickAction {
 }
 
 /// Row of four icon shortcuts shown on Home: Attendance, Leave, Claims,
-/// Payslip. Only Claims is wired to navigation so far (Phase 6);
-/// Attendance/Leave/Payslip remain display-only until a later phase
-/// gives them somewhere real to go.
+/// Payslip. Claims and Payslip are wired to navigation (Phase 6, Phase
+/// 7); Attendance/Leave remain display-only until a later phase gives
+/// them somewhere real to go.
 class QuickActionsRow extends StatelessWidget {
   final VoidCallback onClaimsTap;
+  final VoidCallback onPayslipTap;
 
-  const QuickActionsRow({super.key, required this.onClaimsTap});
+  const QuickActionsRow({super.key, required this.onClaimsTap, required this.onPayslipTap});
 
   static const _actions = [
     _QuickAction(Icons.access_time_outlined, 'Attendance'),
@@ -55,6 +56,13 @@ class QuickActionsRow extends StatelessWidget {
           return InkWell(
             borderRadius: BorderRadius.circular(16),
             onTap: onClaimsTap,
+            child: tile,
+          );
+        }
+        if (action.label == 'Payslip') {
+          return InkWell(
+            borderRadius: BorderRadius.circular(16),
+            onTap: onPayslipTap,
             child: tile,
           );
         }
