@@ -16,10 +16,9 @@ import '../models/leave_request.dart';
 import '../theme/app_theme.dart';
 import '../utils/date_range_label.dart';
 
-/// Shared app state. Currently exposes hardcoded fake data plus the
-/// first two mutating methods: clockIn() and clockOut(). Later phases
-/// will add more methods here (submitLeaveRequest(), etc.) following
-/// the same pattern: mutate internal state, call notifyListeners().
+/// Shared app state. Exposes hardcoded fake data plus mutating methods
+/// (clockIn(), clockOut(), submitLeaveRequest()) that all follow the
+/// same pattern: mutate internal state, call notifyListeners().
 class AppState extends ChangeNotifier {
   Employee get employee => FakeData.employee;
 
