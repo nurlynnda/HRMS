@@ -12,6 +12,8 @@ import '../models/approver.dart';
 import '../models/leave_request.dart';
 import '../models/team_absence.dart';
 import '../models/personal_info.dart';
+import '../models/claim.dart';
+import '../models/claim_entitlement.dart';
 
 /// Hardcoded sample data matching the HRMS design mockup, standing in for
 /// a real backend until one exists.
@@ -336,6 +338,187 @@ class FakeData {
     socsoNumber: '9303 1214 5xxx',
     incomeTaxNumber: 'SG 1234567890',
   );
+
+  static const claimEntitlements = [
+    ClaimEntitlement(
+      type: 'Outpatient',
+      subLabel: 'Per visit · resets yearly',
+      used: 320,
+      cap: 800,
+      color: AppColors.primary,
+    ),
+    ClaimEntitlement(
+      type: 'Dental',
+      subLabel: 'Per visit · resets yearly',
+      used: 150,
+      cap: 500,
+      color: AppColors.info,
+    ),
+    ClaimEntitlement(
+      type: 'Specs',
+      subLabel: 'Once every 2 years',
+      used: 0,
+      cap: 400,
+      color: Color(0xFF8B5CF6),
+    ),
+    ClaimEntitlement(
+      type: 'Travel',
+      subLabel: 'Tied to a company project',
+      used: 1260,
+      cap: null,
+      color: Color(0xFFF59E0B),
+    ),
+  ];
+
+  static const approvedYtdCap = 4000.0;
+
+  static const claimProjects = ['Project Atlas', 'Project Nova', 'Project Vertex', 'Internal'];
+
+  static const _pendingClaimApprovers = [
+    Approver(
+      initials: 'ML',
+      tint: Color(0xFFDBEAFE),
+      color: Color(0xFF1D4ED8),
+      name: 'Marcus Lee',
+      role: 'Design Lead · 1st approver',
+      status: 'Pending',
+      badgeBg: AppColors.warningTint,
+      badgeColor: AppColors.warning,
+      when: '—',
+    ),
+    Approver(
+      initials: 'FT',
+      tint: Color(0xFFECFDF5),
+      color: AppColors.primaryDark,
+      name: 'Finance Team',
+      role: 'Final approver',
+      status: 'Waiting',
+      badgeBg: Color(0xFFF1F5F9),
+      badgeColor: AppColors.textSecondary,
+      when: '—',
+    ),
+  ];
+
+  /// Public alias so AppState (a different file) can expose the pending
+  /// claim approval chain for the new-claim form's preview.
+  static const pendingClaimApprovers = _pendingClaimApprovers;
+
+  static const _approvedClaimApprovers = [
+    Approver(
+      initials: 'ML',
+      tint: Color(0xFFDBEAFE),
+      color: Color(0xFF1D4ED8),
+      name: 'Marcus Lee',
+      role: 'Design Lead · 1st approver',
+      status: 'Approved',
+      badgeBg: AppColors.primaryTint,
+      badgeColor: AppColors.primary,
+      when: 'Jun 15, 11:02 AM',
+    ),
+    Approver(
+      initials: 'FT',
+      tint: Color(0xFFECFDF5),
+      color: AppColors.primaryDark,
+      name: 'Finance Team',
+      role: 'Final approver',
+      status: 'Approved',
+      badgeBg: AppColors.primaryTint,
+      badgeColor: AppColors.primary,
+      when: 'Jun 16, 3:40 PM',
+    ),
+  ];
+
+  static const claims = [
+    Claim(
+      id: 'CLM-0468',
+      category: 'Outpatient',
+      dateLabel: 'Jun 28',
+      amount: 220.00,
+      status: 'Pending',
+      statusColor: AppColors.warning,
+      statusBg: AppColors.warningTint,
+      description: 'GP visit for flu symptoms.',
+      approvers: _pendingClaimApprovers,
+    ),
+    Claim(
+      id: 'CLM-0465',
+      category: 'Dental',
+      dateLabel: 'Jun 22',
+      amount: 200.00,
+      status: 'Pending',
+      statusColor: AppColors.warning,
+      statusBg: AppColors.warningTint,
+      description: 'Routine scaling and polishing.',
+      approvers: _pendingClaimApprovers,
+    ),
+    Claim(
+      id: 'CLM-0451',
+      category: 'Outpatient',
+      dateLabel: 'Jun 10',
+      amount: 100.00,
+      status: 'Approved',
+      statusColor: AppColors.primary,
+      statusBg: AppColors.primaryTint,
+      description: 'Follow-up consultation.',
+      approvers: _approvedClaimApprovers,
+    ),
+    Claim(
+      id: 'CLM-0438',
+      category: 'Travel',
+      dateLabel: 'May 28',
+      amount: 860.00,
+      status: 'Approved',
+      statusColor: AppColors.primary,
+      statusBg: AppColors.primaryTint,
+      description: 'Client site visit — flights and lodging.',
+      approvers: _approvedClaimApprovers,
+    ),
+    Claim(
+      id: 'CLM-0410',
+      category: 'Dental',
+      dateLabel: 'Apr 30',
+      amount: 150.00,
+      status: 'Rejected',
+      statusColor: AppColors.danger,
+      statusBg: AppColors.dangerTint,
+      description: 'Cosmetic whitening — not covered.',
+      approvers: [
+        Approver(
+          initials: 'ML',
+          tint: Color(0xFFDBEAFE),
+          color: Color(0xFF1D4ED8),
+          name: 'Marcus Lee',
+          role: 'Design Lead · 1st approver',
+          status: 'Rejected',
+          badgeBg: AppColors.dangerTint,
+          badgeColor: AppColors.danger,
+          when: 'May 2, 9:15 AM',
+        ),
+        Approver(
+          initials: 'FT',
+          tint: Color(0xFFECFDF5),
+          color: AppColors.primaryDark,
+          name: 'Finance Team',
+          role: 'Final approver',
+          status: 'Waiting',
+          badgeBg: Color(0xFFF1F5F9),
+          badgeColor: AppColors.textSecondary,
+          when: '—',
+        ),
+      ],
+    ),
+    Claim(
+      id: 'CLM-0402',
+      category: 'Outpatient',
+      dateLabel: 'Apr 12',
+      amount: 570.00,
+      status: 'Approved',
+      statusColor: AppColors.primary,
+      statusBg: AppColors.primaryTint,
+      description: 'Specialist referral and lab tests.',
+      approvers: _approvedClaimApprovers,
+    ),
+  ];
 
   static const myLeaveRequests = [
     LeaveRequest(
