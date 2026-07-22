@@ -146,11 +146,7 @@ class ProfileScreen extends StatelessWidget {
             width: double.infinity,
             height: 46,
             child: OutlinedButton.icon(
-              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Logging out is not available in this preview'),
-                ),
-              ),
+              onPressed: () => context.read<AppState>().logOut(),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppColors.danger,
                 side: const BorderSide(color: AppColors.dangerTint),

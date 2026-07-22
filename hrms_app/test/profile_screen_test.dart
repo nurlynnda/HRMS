@@ -57,21 +57,22 @@ void main() {
     expect(find.text('Documents is coming soon'), findsOneWidget);
   });
 
-  testWidgets('tapping Log out shows a not-available message', (tester) async {
+  testWidgets('tapping Log out logs the user out', (tester) async {
+    final appState = AppState();
     await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => AppState(),
+      ChangeNotifierProvider.value(
+        value: appState,
         child: const MaterialApp(home: Scaffold(body: ProfileScreen())),
       ),
     );
 
+    appState.logIn();
+    expect(appState.isLoggedIn, isTrue);
+
     await tester.tap(find.text('Log out'));
     await tester.pump();
 
-    expect(
-      find.text('Logging out is not available in this preview'),
-      findsOneWidget,
-    );
+    expect(appState.isLoggedIn, isFalse);
   });
 
   testWidgets('tapping Payslips opens the payslip screen', (tester) async {
