@@ -19,6 +19,7 @@ class AppColors {
   static const primaryTint = Color(0xFFECFDF5);
   static const primaryHighlight = Color(0xFF6EE7B7);
   static const ringTrack = Color(0xFFEEF2F6);
+  static const darkCard = Color(0xFF0F172A);
 }
 
 class AppTheme {
@@ -39,9 +40,7 @@ class AppTheme {
         color: AppColors.cardBackground,
         elevation: 2,
         shadowColor: Colors.black.withValues(alpha: 0.06),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         selectedItemColor: AppColors.primary,
