@@ -114,4 +114,32 @@ void main() {
     expect(appState.payslips, isNotEmpty);
     expect(appState.payslips.first.month, 'June 2026');
   });
+
+  test('isLoggedIn starts false', () {
+    final appState = AppState();
+    expect(appState.isLoggedIn, isFalse);
+  });
+
+  test('logIn() sets isLoggedIn to true and notifies', () {
+    final appState = AppState();
+    var notified = false;
+    appState.addListener(() => notified = true);
+
+    appState.logIn();
+
+    expect(appState.isLoggedIn, isTrue);
+    expect(notified, isTrue);
+  });
+
+  test('logOut() sets isLoggedIn to false and notifies', () {
+    final appState = AppState();
+    appState.logIn();
+    var notified = false;
+    appState.addListener(() => notified = true);
+
+    appState.logOut();
+
+    expect(appState.isLoggedIn, isFalse);
+    expect(notified, isTrue);
+  });
 }

@@ -25,6 +25,9 @@ import '../utils/date_range_label.dart';
 class AppState extends ChangeNotifier {
   Employee get employee => FakeData.employee;
 
+  bool _isLoggedIn = false;
+  bool get isLoggedIn => _isLoggedIn;
+
   TodayAttendance _todayAttendance = FakeData.todayAttendance;
   TodayAttendance get todayAttendance => _todayAttendance;
 
@@ -139,6 +142,19 @@ class AppState extends ChangeNotifier {
       approvers: FakeData.pendingClaimApprovers,
     );
     _claims = [newClaim, ..._claims];
+    notifyListeners();
+  }
+
+  /// Signs the user in. Mirrors clockIn()/clockOut(): mutate internal
+  /// state, notify.
+  void logIn() {
+    _isLoggedIn = true;
+    notifyListeners();
+  }
+
+  /// Signs the user out. Mirrors logIn().
+  void logOut() {
+    _isLoggedIn = false;
     notifyListeners();
   }
 }
