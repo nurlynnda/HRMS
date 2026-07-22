@@ -9,8 +9,15 @@ enum _FaceStage { scanning, verifying, success }
 /// timed sequence standing in for a real prompt.
 class FaceCheckInOverlay extends StatefulWidget {
   final bool clockingIn;
+  final String? title;
+  final String? subtitle;
 
-  const FaceCheckInOverlay({super.key, required this.clockingIn});
+  const FaceCheckInOverlay({
+    super.key,
+    required this.clockingIn,
+    this.title,
+    this.subtitle,
+  });
 
   @override
   State<FaceCheckInOverlay> createState() => _FaceCheckInOverlayState();
@@ -42,6 +49,8 @@ class _FaceCheckInOverlayState extends State<FaceCheckInOverlay> {
   @override
   Widget build(BuildContext context) {
     final verb = widget.clockingIn ? 'in' : 'out';
+    final title = widget.title ?? 'Face Check-$verb';
+    final subtitle = widget.subtitle ?? 'Verify your identity to clock $verb';
     final statusText = switch (_stage) {
       _FaceStage.scanning => 'Align your face within the frame',
       _FaceStage.verifying => 'Verifying your face…',
@@ -62,7 +71,7 @@ class _FaceCheckInOverlayState extends State<FaceCheckInOverlay> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Face Check-$verb',
+                        title,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
@@ -70,7 +79,7 @@ class _FaceCheckInOverlayState extends State<FaceCheckInOverlay> {
                         ),
                       ),
                       Text(
-                        'Verify your identity to clock $verb',
+                        subtitle,
                         style: const TextStyle(fontSize: 12, color: AppColors.textMuted),
                       ),
                     ],
