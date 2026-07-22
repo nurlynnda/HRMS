@@ -11,7 +11,13 @@ import '../../widgets/quick_actions_row.dart';
 import '../../widgets/weekly_hours_chart.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  /// Called with the target tab index when Home's Attendance (1) or Leave
+  /// (2) quick action is tapped, so MainTabShell can switch the bottom-nav
+  /// tab. Null when HomeScreen is used standalone (e.g. in tests) — those
+  /// taps are then no-ops.
+  final ValueChanged<int>? onNavigateToTab;
+
+  const HomeScreen({super.key, this.onNavigateToTab});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +32,14 @@ class HomeScreen extends StatelessWidget {
           ClockStatusCard(status: appState.clockStatus),
           const SizedBox(height: 18),
           QuickActionsRow(
-            onClaimsTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const ClaimsScreen()),
-            ),
-            onPayslipTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const PayslipScreen()),
-            ),
+            onAttendanceTap: () => onNavigateToTab?.call(1),
+            onLeaveTap: () => onNavigateToTab?.call(2),
+            onClaimsTap: () => Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const ClaimsScreen())),
+            onPayslipTap: () => Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const PayslipScreen())),
           ),
           const SizedBox(height: 22),
           WeeklyHoursChart(

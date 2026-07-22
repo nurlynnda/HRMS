@@ -38,22 +38,21 @@ class MainTabShell extends StatefulWidget {
 class _MainTabShellState extends State<MainTabShell> {
   int _selectedIndex = 0;
 
-  static const _screens = [
-    HomeScreen(),
-    AttendanceScreen(),
-    LeaveScreen(),
-    ProfileScreen(),
-  ];
-
   void _onTabTapped(int index) {
     setState(() => _selectedIndex = index);
   }
 
   @override
   Widget build(BuildContext context) {
+    final screens = [
+      HomeScreen(onNavigateToTab: _onTabTapped),
+      const AttendanceScreen(),
+      const LeaveScreen(),
+      const ProfileScreen(),
+    ];
     return Scaffold(
       body: SafeArea(
-        child: IndexedStack(index: _selectedIndex, children: _screens),
+        child: IndexedStack(index: _selectedIndex, children: screens),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hrms_app/app.dart';
+import 'package:hrms_app/widgets/quick_actions_row.dart';
 
 /// Finds an icon within the BottomNavigationBar specifically. Some icons
 /// (e.g. attendance/leave) are reused by Home's quick-action shortcuts, so a
@@ -9,6 +10,14 @@ import 'package:hrms_app/app.dart';
 Finder findNavIcon(IconData icon) => find.descendant(
   of: find.byType(BottomNavigationBar),
   matching: find.byIcon(icon),
+);
+
+/// Finds a label within Home's QuickActionsRow specifically. The same
+/// labels ("Attendance", "Leave") also appear in the BottomNavigationBar,
+/// so a bare `find.text` matches both.
+Finder findQuickAction(String label) => find.descendant(
+  of: find.byType(QuickActionsRow),
+  matching: find.text(label),
 );
 
 /// HrmsApp now gates on AppState.isLoggedIn (Phase 8), so every test starts
@@ -161,5 +170,49 @@ void main() {
         equals(3),
       );
     });
+
+    testWidgets(
+      'Tapping the Attendance quick action on Home switches to the Attendance tab',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(const HrmsApp());
+        await logIn(tester);
+
+        await tester.tap(findQuickAction('Attendance'));
+        await tester.pumpAndSettle();
+
+        expect(
+          tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+          equals(1),
+        );
+        expect(
+          tester
+              .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+              .currentIndex,
+          equals(1),
+        );
+      },
+    );
+
+    testWidgets(
+      'Tapping the Leave quick action on Home switches to the Leave tab',
+      (WidgetTester tester) async {
+        await tester.pumpWidget(const HrmsApp());
+        await logIn(tester);
+
+        await tester.tap(findQuickAction('Leave'));
+        await tester.pumpAndSettle();
+
+        expect(
+          tester.widget<IndexedStack>(find.byType(IndexedStack)).index,
+          equals(2),
+        );
+        expect(
+          tester
+              .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+              .currentIndex,
+          equals(2),
+        );
+      },
+    );
   });
 }

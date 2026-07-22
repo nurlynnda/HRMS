@@ -5,7 +5,9 @@ import 'package:hrms_app/screens/home/home_screen.dart';
 import 'package:hrms_app/state/app_state.dart';
 
 void main() {
-  testWidgets('HomeScreen shows dashboard content from AppState', (tester) async {
+  testWidgets('HomeScreen shows dashboard content from AppState', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ChangeNotifierProvider(
         create: (_) => AppState(),
@@ -21,7 +23,9 @@ void main() {
     expect(find.text('Payslip'), findsOneWidget);
   });
 
-  testWidgets('tapping the Claims quick action opens the Claims screen', (tester) async {
+  testWidgets('tapping the Claims quick action opens the Claims screen', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ChangeNotifierProvider(
         create: (_) => AppState(),
@@ -35,7 +39,9 @@ void main() {
     expect(find.text('Recent claims'), findsOneWidget);
   });
 
-  testWidgets('tapping the Payslip quick action opens the Payslip screen', (tester) async {
+  testWidgets('tapping the Payslip quick action opens the Payslip screen', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       ChangeNotifierProvider(
         create: (_) => AppState(),
@@ -47,5 +53,51 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Payslip history'), findsOneWidget);
+  });
+
+  testWidgets('tapping the Attendance quick action calls onNavigateToTab(1)', (
+    tester,
+  ) async {
+    int? navigatedIndex;
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (_) => AppState(),
+        child: MaterialApp(
+          home: Scaffold(
+            body: HomeScreen(
+              onNavigateToTab: (index) => navigatedIndex = index,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Attendance'));
+    await tester.pump();
+
+    expect(navigatedIndex, equals(1));
+  });
+
+  testWidgets('tapping the Leave quick action calls onNavigateToTab(2)', (
+    tester,
+  ) async {
+    int? navigatedIndex;
+    await tester.pumpWidget(
+      ChangeNotifierProvider(
+        create: (_) => AppState(),
+        child: MaterialApp(
+          home: Scaffold(
+            body: HomeScreen(
+              onNavigateToTab: (index) => navigatedIndex = index,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Leave'));
+    await tester.pump();
+
+    expect(navigatedIndex, equals(2));
   });
 }
