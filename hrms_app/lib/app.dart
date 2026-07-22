@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'state/app_state.dart';
 import 'theme/app_theme.dart';
+import 'screens/login/login_screen.dart';
 import 'screens/home/home_screen.dart';
 import 'screens/attendance/attendance_screen.dart';
 import 'screens/leave/leave_screen.dart';
@@ -18,7 +19,10 @@ class HrmsApp extends StatelessWidget {
         title: 'HRMS',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.themeData,
-        home: const MainTabShell(),
+        home: Consumer<AppState>(
+          builder: (context, appState, child) =>
+              appState.isLoggedIn ? const MainTabShell() : const LoginScreen(),
+        ),
       ),
     );
   }
@@ -49,19 +53,28 @@ class _MainTabShellState extends State<MainTabShell> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: IndexedStack(
-          index: _selectedIndex,
-          children: _screens,
-        ),
+        child: IndexedStack(index: _selectedIndex, children: _screens),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _onTabTapped,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.access_time_outlined), label: 'Attendance'),
-          BottomNavigationBarItem(icon: Icon(Icons.event_note_outlined), label: 'Leave'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Me'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.access_time_outlined),
+            label: 'Attendance',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event_note_outlined),
+            label: 'Leave',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Me',
+          ),
         ],
       ),
     );

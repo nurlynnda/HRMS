@@ -7,14 +7,29 @@ import 'package:hrms_app/app.dart';
 /// bare `find.byIcon` can match more than one widget once real dashboard
 /// content is on screen.
 Finder findNavIcon(IconData icon) => find.descendant(
-      of: find.byType(BottomNavigationBar),
-      matching: find.byIcon(icon),
-    );
+  of: find.byType(BottomNavigationBar),
+  matching: find.byIcon(icon),
+);
+
+/// HrmsApp now gates on AppState.isLoggedIn (Phase 8), so every test starts
+/// on LoginScreen. Sign in via the Face ID shortcut (fewer steps than
+/// filling in the email/password fields) to reach the tab shell.
+Future<void> logIn(WidgetTester tester) async {
+  await tester.tap(find.text('Sign in with Face ID'));
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 900));
+  await tester.pump(const Duration(milliseconds: 700));
+  await tester.pump(const Duration(milliseconds: 600));
+  await tester.pumpAndSettle();
+}
 
 void main() {
   group('HrmsApp Navigation Tests', () {
-    testWidgets('HrmsApp loads with Home tab selected by default', (WidgetTester tester) async {
+    testWidgets('HrmsApp loads with Home tab selected by default', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const HrmsApp());
+      await logIn(tester);
 
       // Verify Home tab is selected (index 0) by checking IndexedStack.index
       expect(
@@ -23,13 +38,18 @@ void main() {
       );
       // Verify BottomNavigationBar also shows Home as current
       expect(
-        tester.widget<BottomNavigationBar>(find.byType(BottomNavigationBar)).currentIndex,
+        tester
+            .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+            .currentIndex,
         equals(0),
       );
     });
 
-    testWidgets('Tapping Attendance tab switches to Attendance screen', (WidgetTester tester) async {
+    testWidgets('Tapping Attendance tab switches to Attendance screen', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const HrmsApp());
+      await logIn(tester);
 
       // Find and tap the Attendance bottom nav item
       await tester.tap(findNavIcon(Icons.access_time_outlined));
@@ -42,13 +62,18 @@ void main() {
       );
       // Verify BottomNavigationBar also shows Attendance as current
       expect(
-        tester.widget<BottomNavigationBar>(find.byType(BottomNavigationBar)).currentIndex,
+        tester
+            .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+            .currentIndex,
         equals(1),
       );
     });
 
-    testWidgets('Tapping Leave tab switches to Leave screen', (WidgetTester tester) async {
+    testWidgets('Tapping Leave tab switches to Leave screen', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const HrmsApp());
+      await logIn(tester);
 
       // Find and tap the Leave bottom nav item
       await tester.tap(findNavIcon(Icons.event_note_outlined));
@@ -61,13 +86,18 @@ void main() {
       );
       // Verify BottomNavigationBar also shows Leave as current
       expect(
-        tester.widget<BottomNavigationBar>(find.byType(BottomNavigationBar)).currentIndex,
+        tester
+            .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+            .currentIndex,
         equals(2),
       );
     });
 
-    testWidgets('Tapping Me tab switches to Profile screen', (WidgetTester tester) async {
+    testWidgets('Tapping Me tab switches to Profile screen', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const HrmsApp());
+      await logIn(tester);
 
       // Find and tap the Me (Profile) bottom nav item
       await tester.tap(findNavIcon(Icons.person_outline));
@@ -80,13 +110,18 @@ void main() {
       );
       // Verify BottomNavigationBar also shows Me as current
       expect(
-        tester.widget<BottomNavigationBar>(find.byType(BottomNavigationBar)).currentIndex,
+        tester
+            .widget<BottomNavigationBar>(find.byType(BottomNavigationBar))
+            .currentIndex,
         equals(3),
       );
     });
 
-    testWidgets('Navigation between multiple tabs works without errors', (WidgetTester tester) async {
+    testWidgets('Navigation between multiple tabs works without errors', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(const HrmsApp());
+      await logIn(tester);
 
       // Verify initial Home tab (index 0)
       expect(
